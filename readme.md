@@ -1,9 +1,10 @@
 ## OfficeManagementSystem
 
 A system that helps to perform day to day activities of an office  including attendance management, task management, leave management,  complaint management, etc.
+
 This system basically has two users, Administrator and Employee. Administrators controls all the activities of Employees. 
+
 Development Methodology:
- 
 
     Laravel Framework (version 5.0)
     HTML5/CSS
@@ -12,7 +13,6 @@ Development Methodology:
     Twitter Bootstrap
 
 Functions of Administrator includes:
- 
 
     Marking attendance of employees
     Assigning tasks to employees
@@ -22,7 +22,6 @@ Functions of Administrator includes:
     Edit profile
 
 Functions of Employee includes:
- 
 
     Viewing attendance records of own
     Viewing task records of own
