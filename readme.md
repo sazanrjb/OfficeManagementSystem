@@ -28,3 +28,5 @@ Functions of Employee includes:
     Taking leave
     Reporting complaints to the adminstrators
     Edit profile
+    
+Here is the slide of my final year presentation: http://www.slideshare.net/sazanrjb/office-management-system-54479490
