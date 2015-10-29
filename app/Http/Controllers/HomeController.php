@@ -481,7 +481,7 @@ class HomeController extends Controller {
 //        $var = array();
 //        die;
         \Session::flash('attendance','Successfully performed attendance');
-        return Redirect::to('/attendance');
+        return redirect()->intended('/attendance');
     }
 
     public function viewAttendance(){
@@ -633,7 +633,8 @@ class HomeController extends Controller {
     }
 
     public function logout(){
-        echo 'a';
+        Auth::logout();
+        return redirect()->intended('/');
     }
 
 
