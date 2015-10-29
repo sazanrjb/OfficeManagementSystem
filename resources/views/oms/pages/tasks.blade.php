@@ -68,8 +68,8 @@
                     {!!Form::open(array('url'=>'/viewtask','method'=>'post'))!!}
                     <div class="center-block text-center">
 
-                        Search task: {!!Form::input('text','date','')!!}
-                        {!!Form::submit('Search',array('class'=>'btn btn-primary'))!!}
+                        {{--Search task: {!!Form::input('text','date','')!!}--}}
+                        {{--{!!Form::submit('Search',array('class'=>'btn btn-primary'))!!}--}}
                         @if(Session::has('notice'))
                         <div class="alert alert-info"> {{Session::get('notice')}} </div>
                         @endif
@@ -92,7 +92,7 @@
                         <td>{{date('Y-m-d',strtotime($t->assigned_date))}}</td>
                         <td>{{date('Y-m-d',strtotime($t->completion_date))}}</td>
                         <td>@foreach($t->users as $user)
-                                <a href="/profile/{{$user->id}}">{{$user->first_name}}</a>
+                                <a href="/{{$user->username}}">{{$user->first_name}}</a>
                             @endforeach</td>
                         <td>&nbsp;&nbsp;&nbsp;<a href="/deletetask/{{$t->id}}" class="text-danger"><i class="glyphicon glyphicon-remove"></i></a></td>
                     </tr>
@@ -117,8 +117,8 @@
                     {!!Form::open(array('url'=>'/viewtask','method'=>'post'))!!}
                     <div class="center-block text-center">
 
-                        Search task: {!!Form::input('text','date','')!!}
-                        {!!Form::submit('Search',array('class'=>'btn btn-primary'))!!}
+                        {{--Search task: {!!Form::input('text','date','')!!}--}}
+                        {{--{!!Form::submit('Search',array('class'=>'btn btn-primary'))!!}--}}
                         @if(Session::has('notice'))
                         <div class="alert alert-info"> {{Session::get('notice')}} </div>
                         @endif
@@ -143,7 +143,7 @@
                         <td>{{date('Y-m-d',strtotime($t->completion_date))}}</td>
                         <!--                        <td>{{$t->users()->first()->id}}</td>-->
                         <td>@foreach($t->users as $user)
-                            <a href="/profile/{{$user->id}}">{{$user->first_name}}</a>
+                            <a href="/{{$user->username}}">{{$user->first_name}}</a>
                             @endforeach</td>
                         <td>&nbsp;&nbsp;&nbsp;<a href="/deletetask/{{$t->id}}" class="text-danger"><i class="glyphicon glyphicon-remove"></i></a></td>
                     </tr>

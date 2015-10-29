@@ -86,7 +86,7 @@ class HomeController extends Controller {
             $user = $this->user->find($empID);
             if($reportRequest['listCategory'] == 'Task'){
 //                $task = $user->tasks()->first()->get();
-                if($user->tasks()->first()->get()->count() == null){
+                if($user->tasks->count() == 0){
 
                     \Session::flash('notice','No tasks are assigned to this user');
                     return redirect()->back();
@@ -101,11 +101,20 @@ class HomeController extends Controller {
 //                var_dump($attendance);
                 return redirect()->back()->with('att',$attendance);
             }else{
-                $leaves = $user->leaves()->get();
-                return redirect()->back()->with('leaves',$leaves);
+//                $leaves = $user->leaves()->get();
+//                var_dump($leaves);
+                if($user->leaves->count() == 0){
+                    \Session::flash('notice',$user->first_name." has not taken any leaves");
+                    return redirect()->back();
+                }else{
+                    $leaves = $user->leaves()->get();
+                    return redirect()->back()->with('leaves',$leaves);
+                }
+//
             }
         }else{
-            echo "no such user";
+            \Session::flash('notice','No employee with this ID');
+            return redirect()->back();
         }
     }
 
@@ -176,6 +185,7 @@ class HomeController extends Controller {
         return view('oms.pages.leave');
     }
 
+    protected $flag;
     public function makeleave(Requests\LeaveRequest $leaveRequest){
         $this->leave->start_date = date('Y-m-d',strtotime($leaveRequest['startingDate']));
         $this->leave->end_date = date('Y-m-d',strtotime($leaveRequest['endingDate']));
@@ -191,10 +201,10 @@ class HomeController extends Controller {
             $task_date=$ta->assigned_date;
             $end_date=$ta->completion_date;
             $task_range=$this->dateRange->date_range($task_date,$end_date);
-            $flag=$this->dateRange->date_diff($range,$task_range);
+            $this->flag=$this->dateRange->date_diff($range,$task_range);
         }
-        var_dump($flag);
-        if($flag){
+//        var_dump($flag);
+        if($this->flag){
             \Session::flash('notice','You Have Task To Complete between the dates');
             return Redirect::back()->withInput();
         }
@@ -449,6 +459,7 @@ class HomeController extends Controller {
 
         $var=array();
         $emp=Input::get('empName');
+
         $i=0;
         $users=$this->user->where('designation','=','Employee')->get();
         foreach($users as $user){

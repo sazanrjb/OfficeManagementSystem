@@ -22,7 +22,7 @@
                     <h2 class="text-center text-muted">Make Attendance</h2>
                     {!!Form::open(array('url'=>'/makeattendance','method'=>'post'))!!}
                 <div class="form-group">
-                    <p>Date: <input type="text" class="datepick" name="date" id="date1" value="{{date('Y/m/d')}}"><br></p>
+                    <p>Date: <input type="text" class="datepick" name="date" id="date1" ><br></p>
                     <a id="checkAll" class="text-success" href="javascript:void(0);">check all</a>&nbsp;&nbsp;
                     <a id="uncheckAll" class="text-danger" href="javascript:void(0);">uncheck all</a>
                     <div id="checkbox">
@@ -53,7 +53,7 @@
                         {!!Form::open(array('url'=>'/viewattendance','method'=>'post'))!!}
                         <div class="center-block text-center">
 
-                                Choose Date: {!!Form::input('text','date','',array('class'=>'datepicker','placeholder'=>'Choose date'))!!}
+                                Choose Date: {!!Form::input('text','date','',array('class'=>'datepicker','placeholder'=>'Choose date'),['disabled'=>'disabled'])!!}
 <!--                                            <a href="/viewattendance" class="btn btn-primary"><i class=" glyphicon glyphicon-eye-open"></i> View attendance</a>-->
 <!--                                            <a href="/view" class="btn btn-danger"><i class=" glyphicon glyphicon-remove"></i> Delete attendance of this day</a>-->
                                             {!!Form::submit('View Attendance',array('class'=>'btn btn-primary'))!!}
@@ -151,6 +151,12 @@
 </div>
 <script>
     document.getElementById('title').innerHTML = "Attendance";
+    var date = new Date();
+    var month = (date.getMonth()+1);
+    var day = date.getDate();
+    var year = date.getFullYear();
+    {{--document.getElementById('date1').value = '{{date("m/d/Y")}}';--}}
+    document.getElementById('date1').value = month+"/"+day+"/"+year;
 </script>
 
 <!--Main content ends-->

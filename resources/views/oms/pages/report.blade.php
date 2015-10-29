@@ -44,6 +44,9 @@
 <!--            {!!Session::get('attendance')!!}-->
 <!--            {!!Session::get('leaves')!!}-->
             @if(Session::has('tasks'))
+                @if(Session::get('tasks')==null)
+                    {{var_dump("null")}}
+                @endif
             <div>
                 <table class="table table-responsive table-striped">
                     <caption class="text-center">Task Report of <?php $tasks = Session::get('tasks'); echo $tasks[0]->users()->first()->first_name; ?></caption>
