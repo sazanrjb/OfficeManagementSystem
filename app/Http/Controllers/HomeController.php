@@ -459,40 +459,43 @@ class HomeController extends Controller {
 
         $var=array();
         $emp=Input::get('empName');
+        if(!isset($emp)){
+            \Session::flash('notice','Neither checkboxes were clicked');
+            return redirect()->intended('/attendance');
+        }else {
+            $i = 0;
+            $users = $this->user->where('designation', '=', 'Employee')->get();
+            foreach ($users as $user) {
 
-        $i=0;
-        $users=$this->user->where('designation','=','Employee')->get();
-        foreach($users as $user){
+                $var[$i]['attendance_date'] = date('Y-m-d', strtotime($attendance['date']));
+                foreach ($emp as $em) {
 
-            $var[$i]['attendance_date']=date('Y-m-d',strtotime($attendance['date']));
-            foreach($emp as $em){
+                    if ($em == $user->id) {
+                        $var[$i]['presence'] = 1;
+                        break;
+                    } else {
+                        $var[$i]['presence'] = 0;
 
-                if($em==$user->id){
-                    $var[$i]['presence']=1;
-                    break;
+                    }
                 }
-                else{
-                    $var[$i]['presence']=0;
-
-                }
-            }
-            $var[$i]['user_id']=$user->id;
+                $var[$i]['user_id'] = $user->id;
 //            var_dump($var);
 //            echo $var[$i]['user_id'] . "-";
 //            echo $var[$i]['presence'] . "<br><br>";
-            $i++;
+                $i++;
 
 //            if($this->attendance->create($var)){
 //                unset($var);
 //                $var=array();
 //            }
-        }
-        $this->attendance->insert($var);
+            }
+            $this->attendance->insert($var);
 
 //        $var = array();
 //        die;
-        \Session::flash('attendance','Successfully performed attendance');
-        return redirect()->intended('/attendance');
+            \Session::flash('attendance', 'Successfully performed attendance');
+            return redirect()->intended('/attendance');
+        }
     }
 
     public function viewAttendance(){
