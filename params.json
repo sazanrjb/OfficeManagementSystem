@@ -1,0 +1,6 @@
+{
+  "name": "Officemanagementsystem",
+  "tagline": "  A system that helps to perform day to day activities of an office including attendance management, task management, leave management, complaint management, etc.",
+  "body": "### About\r\nA system that helps to perform day to day activities of an office including attendance management, task management, leave management, complaint management, etc.\r\n\r\nThis system basically has two users, Administrator and Employee. Administrators controls all the activities of Employees.\r\n\r\n### Development Methodology:\r\n\r\n* Laravel Framework (version 5.0)\r\n* HTML5/CSS\r\n* AJAX (Asynchronous JavaScript and XML)\r\n* JQuery\r\n* Twitter Bootstrap\r\n\r\n### Functions of Administrator includes:\r\n\r\n* Marking attendance of employees\r\n* Assigning tasks to employees\r\n* Viewing reports of employees\r\n* Broadcasting notice to everyone\r\n* Managing users\r\n* Edit profile\r\n\r\n### Functions of Employee includes:\r\n\r\n* Viewing attendance records of own\r\n* Viewing task records of own\r\n* Taking leave\r\n* Reporting complaints to the adminstrators\r\n* Edit profile\r\n\r\nHere is the slide of my final year presentation: http://www.slideshare.net/sazanrjb/office-management-system-54479490\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
