@@ -32,8 +32,9 @@ class UserTableSeeder extends Seeder {
 
         \App\User::create(array(
             'first_name'=>'Sajan',
+            'middle_name' => '',
             'last_name' => 'Rajbhandari',
-            'joined_date'=> date('YY-mm-dd'),
+            'joined_date'=> Carbon\Carbon::now(),
             'email'=>'sazanrjb@gmail.com',
             'username'=>'sazanrjb',
             'password'=>\Illuminate\Support\Facades\Hash::make('test123'),

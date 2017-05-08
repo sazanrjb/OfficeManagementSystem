@@ -94,7 +94,7 @@
             <div class="navbar navbar-default">
                 <ul class="nav nav-tabs nav-stacked">
                     <br>
-                        <a href="/{{Auth::user()->username}}">{!!HTML::image(Auth::user()->profile->profile_picture,'',array('class'=>'img-responsive img-circle center-block','width'=>'100px'))!!}</a>
+                        @if(Auth::user()->profile)<a href="/{{Auth::user()->username}}">{!!HTML::image(Auth::user()->profile->profile_picture,'',array('class'=>'img-responsive img-circle center-block','width'=>'100px'))!!}</a>@endif
                         <p class="text-center"><a href="/{{Auth::user()->username}}" style="color: #000">Namaste {{Auth::user()->first_name}}!</a></p>
                     <br>
                     @if(Auth::user()->designation == 'Administrator')
