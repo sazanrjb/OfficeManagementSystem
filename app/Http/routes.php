@@ -1,43 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
-//Route::get('/', 'WelcomeController@index');
-Route::get('/test',function(){
-   $a=array(1,2,3,4,5,6);
-    $b=array(5,6,4);
-    $c=array();
-    $d=array(8,9,10);
-    $array=array($b,$c,$d);
-    $flag=false;
-    $var=array();
-    $values=array();
-    foreach($array as $ab){
-        for($j=0;$j<count($ab);$j++){
-            for($i=0;$i<count($a);$i++){
-                if($ab[$j]==$a[$i]){
-                    array_push($values,true);
-                    $val=false;
-                    break;
-                }
-            }
-            if($val==false){
-                break;
-            }
-        }
-    }
-    print_r($values);
-
-});
 Route::get('home', 'HomeController@index');
 
 Route::get('/', 'MainController@index',['middleware'=>'guest']);
@@ -88,15 +50,3 @@ Route::get('deleteuser/{id}','HomeController@deleteuser');
 Route::get('/a','HomeController@ajax_users');
 Route::get('/b','HomeController@select_user');
 Route::get('/{username}','HomeController@profile');
-
-
-
-Route::get('notices',function(){
-   $notice=new App\Notice();
-    $user=$notice->find(1);
-    var_dump($user->users()->first()->email);
-});
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
