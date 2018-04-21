@@ -1,5 +1,7 @@
 <?php namespace App\Providers;
 
+use App\Repository\NoticeRepository;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider {
@@ -11,7 +13,8 @@ class AppServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		//
+		$noticeRepository = resolve(NoticeRepository::class);
+        View::share('notice',$noticeRepository->get(5));
 	}
 
 	/**

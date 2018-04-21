@@ -18,6 +18,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	protected $table = 'users';
     public $timestamps = false;
 
+    const EMPLOYEE = 'employee';
+    const ADMIN = 'admin';
+
 	/**
 	 * The attributes that are mass assignable.
 	 *

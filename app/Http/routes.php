@@ -7,8 +7,11 @@ Route::post('loginprocess','MainController@loginprocess');
 Route::get('logout','HomeController@logout');
 
 
-Route::get('/dashboard', 'HomeController@dashboard');
-Route::get('users','HomeController@users');
+Route::get('/dashboard', 'DashboardController');
+
+Route::resource('tasks', 'TaskController');
+
+Route::resource('users','UserController');
 
 Route::get('report','HomeController@report');
 Route::post('viewreport','HomeController@viewreport');
@@ -18,7 +21,6 @@ Route::get('notice/{id}','HomeController@notice');
 Route::get('noticehistory','HomeController@noticehistory');
 Route::get('deletenotice/{id}','HomeController@deletenotice');
 
-Route::get('tasks','HomeController@tasks');
 
 Route::get('complaint','HomeController@complaint');
 Route::post('processcomplaint','HomeController@processcomplaint');
@@ -39,8 +41,6 @@ Route::post('makeattendance','HomeController@makeAttendance');
 Route::post('viewattendance','HomeController@viewAttendance');
 Route::post('viewempattendance','HomeController@viewEmpAttendance');
 
-Route::post('assigntask','HomeController@assigntask');
-Route::get('deletetask/{id}','HomeController@deletetask');
 Route::post('broadcastprocess','HomeController@broadcastprocess');
 
 

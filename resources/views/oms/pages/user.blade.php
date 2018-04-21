@@ -29,7 +29,15 @@
                     <td>{{$user->email}}</td>
                     <td>{{$user->username}}</td>
                     <td>{{$user->designation}}</td>
-                    <td><a href="/edituser/{{$user->id}}" class="text-success"><i class="glyphicon glyphicon-edit"></i></a> &nbsp;&nbsp;&nbsp;<a href="/deleteuser/{{$user->id}}" class="text-danger"><i class="glyphicon glyphicon-remove"></i></a> </td>
+                    <td>
+                        <form method="POST" action="users/{{$user->id}}">
+                            {{csrf_field()}}
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button class="btn btn-danger">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </table>
@@ -41,15 +49,15 @@
                     @foreach($errors->all() as $error)
                         <p class="text-center text-danger bg-danger">{{$error}}</p>
                     @endforeach
-                    {!!Form::open(array('url'=>'/addusers','method'=>'post'))!!}
+                    {!!Form::open(array('url'=>'/users','method'=>'post'))!!}
                     <h2 class="text-center text-muted">Add Users</h2>
                     <p class="text-info">Note: Username and Password will be auto generated</p>
                     <label>First name</label>
-                    {!!Form::input('text','firstName','',array('class'=>'form-control','placeholder'=>'First Name'))!!}<br>
+                    {!!Form::input('text','first_name','',array('class'=>'form-control','placeholder'=>'First Name'))!!}<br>
                     <label>Middle name</label>
-                    {!!Form::input('text','middleName','',array('class'=>'form-control','placeholder'=>'Middle Name'))!!}<br>
+                    {!!Form::input('text','middle_name','',array('class'=>'form-control','placeholder'=>'Middle Name'))!!}<br>
                     <label>Last name</label>
-                    {!!Form::input('text','lastName','',array('class'=>'form-control','placeholder'=>'Last Name'))!!}<br>
+                    {!!Form::input('text','last_name','',array('class'=>'form-control','placeholder'=>'Last Name'))!!}<br>
                     <label>Joined</label>
                     {!!Form::input('text','joined_date','',array('class'=>'form-control datepicker','placeholder'=>'Joined_date'))!!}<br>
                     <label>Email</label>
