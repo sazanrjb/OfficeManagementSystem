@@ -11,7 +11,14 @@ Route::get('/dashboard', 'DashboardController');
 
 Route::resource('tasks', 'TaskController');
 
-Route::resource('users','UserController');
+Route::get('api/users/present-by-date','User\GetPresentUsersByDate');
+Route::resource('users','User\UserController');
+
+Route::resource('complaints','ComplaintController');
+
+Route::post('attendances/get-by-month-and-year', 'Attendance\GetByMonthAndYearForUser');
+Route::post('attendances/get-by-date', 'Attendance\GetByDateController');
+Route::resource('attendances','Attendance\AttendanceController');
 
 Route::get('report','HomeController@report');
 Route::post('viewreport','HomeController@viewreport');
@@ -21,25 +28,12 @@ Route::get('notice/{id}','HomeController@notice');
 Route::get('noticehistory','HomeController@noticehistory');
 Route::get('deletenotice/{id}','HomeController@deletenotice');
 
-
-Route::get('complaint','HomeController@complaint');
-Route::post('processcomplaint','HomeController@processcomplaint');
-Route::get('deletecomplaint/{id}','HomeController@deletecomplaint');
-Route::get('viewcomplaint/{id}','HomeController@viewcomplaint');
-
-//Route::resource('/complaint','ComplaintController');
-
 Route::get('leave','HomeController@leave');
 Route::post('makeleave','HomeController@makeleave');
 
 Route::get('editprofile','HomeController@editprofile');
 Route::post('editprocess','HomeController@editprocess');
 Route::post('changepassword','HomeController@changePassword');
-
-Route::get('attendance','HomeController@attendance');
-Route::post('makeattendance','HomeController@makeAttendance');
-Route::post('viewattendance','HomeController@viewAttendance');
-Route::post('viewempattendance','HomeController@viewEmpAttendance');
 
 Route::post('broadcastprocess','HomeController@broadcastprocess');
 

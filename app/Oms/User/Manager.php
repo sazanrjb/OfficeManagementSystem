@@ -3,6 +3,7 @@
 namespace App\Oms\User;
 
 
+use App\Oms\Core\Services\DateRange;
 use App\Oms\User\Exceptions\UserNotFoundException;
 use App\Oms\User\Models\User;
 use App\Oms\User\Models\UserProfile;
@@ -14,10 +15,13 @@ class Manager
 
     private $userProfile;
 
-    public function __construct(User $user, UserProfile $userProfile)
+    private $dateRange;
+
+    public function __construct(User $user, UserProfile $userProfile, DateRange $dateRange)
     {
         $this->user = $user;
         $this->userProfile = $userProfile;
+        $this->dateRange = $dateRange;
     }
 
     public function all()
@@ -46,7 +50,7 @@ class Manager
 
     public function getRelatedUsernames($username)
     {
-        return $this->user->where('username', 'LIKE', $username.'%')
+        return $this->user->where('username', 'LIKE', $username . '%')
             ->select('id', 'username')
             ->get();
     }
@@ -57,9 +61,9 @@ class Manager
         $user->fill($userDetails);
         $username = $this->createUserName($userDetails['first_name'] . $userDetails['last_name']);
         $user->forceFill([
-           'username' => $username,
-           'password' => Hash::make($username),
-           'joined_date' => date('Y-m-d', strtotime($userDetails['joined_date']))
+            'username' => $username,
+            'password' => Hash::make($username),
+            'joined_date' => date('Y-m-d', strtotime($userDetails['joined_date']))
         ]);
         $user->save();
 
@@ -74,7 +78,7 @@ class Manager
             return $currentUsername;
         }
         for ($i = 1; $i <= 10; ++$i) {
-            $newSlug = $currentUsername.$i;
+            $newSlug = $currentUsername . $i;
             if (!$usernames->contains('username', $newSlug)) {
                 return $newSlug;
             }
@@ -84,5 +88,31 @@ class Manager
     public function delete(User $user)
     {
         return $user->delete();
+    }
+
+    public function getPresentUsersByDate($details)
+    {
+        $users = $this->getByDesignation(User::EMPLOYEE);
+        $presentUsers = array();
+        foreach ($users as $user) {
+            $leave_date = $user->leaves()->get();
+            foreach ($leave_date as $le_date) {
+                $range = $this->dateRange->date_range($le_date->start_date, $le_date->end_date);
+                $flag = $this->dateRange->date_cal($range, date('d/m/Y', strtotime($details['date'])));
+                if ($flag) {
+                    $user_id = $user->id;
+                }
+            }
+            if (isset($user_id)) {
+                if ($user_id != $user->id) {
+                    array_push($presentUsers, $user);
+                }
+            } else {
+                array_push($presentUsers, $user);
+            }
+        }
+
+        return $presentUsers;
+
     }
 }

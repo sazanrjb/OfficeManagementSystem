@@ -102,8 +102,6 @@ class HomeController extends Controller
 //                var_dump($attendance);
                 return redirect()->back()->with('att', $attendance);
             } else {
-//                $leaves = $user->leaves()->get();
-//                var_dump($leaves);
                 if ($user->leaves->count() == 0) {
                     \Session::flash('notice', $user->first_name . " has not taken any leaves");
                     return redirect()->back();
@@ -111,7 +109,6 @@ class HomeController extends Controller
                     $leaves = $user->leaves()->get();
                     return redirect()->back()->with('leaves', $leaves);
                 }
-//
             }
         } else {
             \Session::flash('notice', 'No employee with this ID');
@@ -122,52 +119,6 @@ class HomeController extends Controller
     public function broadcast()
     {
         return view('oms.pages.broadcast');
-    }
-
-    public function complaint()
-    {
-        $complaint = new Complaint();
-        $all = $complaint->all();
-        return view('oms.pages.complaint')->with('complaint', $all);
-    }
-
-    public function processcomplaint()
-    {
-        $message = Input::get('message');
-        if ($message == '') {
-            \Session::flash('notice', 'Please enter a message!');
-            return redirect()->back()->withInput();
-        } else {
-            $complaint = new Complaint();
-            $complaint->complaint = Input::get('message');
-            $complaint->user_id = Auth::id();
-            if ($complaint->save()) {
-                \Session::flash('notice', 'Successsfully reported Complaint');
-                return redirect()->back();
-            } else {
-                \Session::flash('notice', 'Error reporting Complaint');
-                return redirect()->back();
-            }
-        }
-    }
-
-    public function deletecomplaint($id)
-    {
-        $complaint = $this->complaint->find($id);
-        if ($complaint->delete()) {
-            \Session::flash('notice', 'Successfully deleted');
-//            return Redirect::to('/');
-            return redirect('/');
-        } else {
-            \Session::flash('notice', 'Error deleting');
-            return Redirect::to('/');
-        }
-    }
-
-    public function viewcomplaint($id)
-    {
-        $complaint = $this->complaint->where('id', '=', $id)->get();
-        return view('oms.pages.viewcomplaint')->with('complaint', $complaint);
     }
 
     /**
@@ -187,9 +138,6 @@ class HomeController extends Controller
         $this->leave->reason = $leaveRequest['reason'];
         $this->leave->user_id = Auth::id();
         $range = $this->dateRange->date_range($this->leave->start_date, $this->leave->end_date);
-//        foreach($range as $r){
-//            echo $r.'<br>';
-//        }
         $user = User::find(Auth::id());
         $tasks = $user->tasks()->get();
         foreach ($tasks as $ta) {
@@ -198,7 +146,6 @@ class HomeController extends Controller
             $task_range = $this->dateRange->date_range($task_date, $end_date);
             $this->flag = $this->dateRange->date_diff($range, $task_range);
         }
-//        var_dump($flag);
         if ($this->flag) {
             \Session::flash('notice', 'You Have Task To Complete between the dates');
             return Redirect::back()->withInput();
@@ -258,7 +205,6 @@ class HomeController extends Controller
 
                     $this->savedUser = \DB::select("SELECT * FROM users INNER JOIN user_profiles ON users.id = user_profiles.user_id WHERE user_profiles.id=" . $profile->id);
 
-//                        return view('oms.pages.profile')->with('user',$user)->with('profile',$this->savedUser);
                     return redirect()->back();
                 }
             }
@@ -299,34 +245,6 @@ class HomeController extends Controller
                 return redirect()->back()->withInput();
             }
         }
-    }
-
-
-    public function attendance()
-    {
-//        $result = $this->user->all();
-        $users = $this->user->where('designation', '=', 'Employee')->get();
-        $date_range = new DateRange();
-        $var = array();
-        foreach ($users as $user) {
-//            echo $user->first_name;
-            $leave_date = $user->leaves()->get();
-            foreach ($leave_date as $le_date) {
-                $range = $date_range->date_range($le_date->start_date, $le_date->end_date);
-                $flag = $date_range->date_cal($range, date('d/m/Y'));
-                if ($flag) {
-                    $user_id = $user->id;
-                }
-            }
-            if (isset($user_id)) {
-                if ($user_id != $user->id) {
-                    array_push($var, $user);
-                }
-            } else {
-                array_push($var, $user);
-            }
-        }
-        return view('oms.pages.attendance')->with('result', $var);
     }
 
     public function ajax_users()
@@ -400,137 +318,6 @@ class HomeController extends Controller
         $notice = new Notice();
         $result = $notice->all();
         return view('oms.pages.noticehistory')->with('result', $result);
-    }
-
-    public function addusers(Requests\UserRequest $userRequest)
-    {
-        $oldUsername = $this->user->select('username')->orderBy('id', 'desc')->first();
-        $processUsername = substr($oldUsername->username, 4);
-        $newUsername = 'user' . ($processUsername + 1);
-        $password = $newUsername;
-        $this->user->first_name = $userRequest['firstName'];
-        $this->user->middle_name = $userRequest['middleName'];
-        $this->user->last_name = $userRequest['lastName'];
-        $this->user->joined_date = date('Y-m-d', strtotime(Input::get('joined_date')));
-        $this->user->email = $userRequest['email'];
-        $this->user->username = $newUsername;
-        $this->user->password = \Hash::make($password);
-        $this->user->designation = $userRequest['designation'];
-
-        if ($this->user->save()) {
-            $user = $this->user->where('username', $newUsername)->first();
-            $this->userProfile->profile_picture = 'img/user.bmp';
-            $this->userProfile->user_id = $user->id;
-            $this->userProfile->save();
-            \Session::flash('notice', 'User successfully created with username: ' . $newUsername);
-            return Redirect::to('/users');
-        }
-    }
-
-    public function edituser($id)
-    {
-        echo $id;
-    }
-
-    public function makeAttendance(Requests\Attendance $attendance)
-    {
-
-        $var = array();
-        $emp = Input::get('empName');
-        if (!isset($emp)) {
-            \Session::flash('notice', 'Neither checkboxes were clicked');
-            return redirect()->intended('/attendance');
-        } else {
-            $i = 0;
-            $users = $this->user->where('designation', '=', 'Employee')->get();
-            foreach ($users as $user) {
-
-                $var[$i]['attendance_date'] = date('Y-m-d', strtotime($attendance['date']));
-                foreach ($emp as $em) {
-
-                    if ($em == $user->id) {
-                        $var[$i]['presence'] = 1;
-                        break;
-                    } else {
-                        $var[$i]['presence'] = 0;
-
-                    }
-                }
-                $var[$i]['user_id'] = $user->id;
-//            var_dump($var);
-//            echo $var[$i]['user_id'] . "-";
-//            echo $var[$i]['presence'] . "<br><br>";
-                $i++;
-
-//            if($this->attendance->create($var)){
-//                unset($var);
-//                $var=array();
-//            }
-            }
-            $this->attendance->insert($var);
-
-//        $var = array();
-//        die;
-            \Session::flash('attendance', 'Successfully performed attendance');
-            return redirect()->intended('/attendance');
-        }
-    }
-
-    public function viewAttendance()
-    {
-
-        $users = $this->user->where('designation', '=', 'Employee')->get();
-        $date_range = new DateRange();
-        $var = array();
-        foreach ($users as $user) {
-//            echo $user->first_name;
-            $leave_date = $user->leaves()->get();
-            foreach ($leave_date as $le_date) {
-                $range = $date_range->date_range($le_date->start_date, $le_date->end_date);
-                $flag = $date_range->date_cal($range, date('d/m/Y'));
-                if ($flag) {
-                    $user_id = $user->id;
-                }
-                unset($flag);
-            }
-            if (isset($user_id)) {
-                if ($user_id != $user->id) {
-                    array_push($var, $user);
-                }
-            } else {
-                array_push($var, $user);
-            }
-        }
-
-        if (Input::get('date') == "") {
-            \Session::flash('attendance', 'Please choose a date first!');
-            return Redirect::to('/attendance');
-//            \Session::flash('attendance','Attendance of '.Input::get('date').":");
-        } else {
-            $date = date('Y-m-d', strtotime(Input::get('date')));
-            $day = date('d', strtotime(Input::get('date')));
-//            var_dump($date);
-            $attendance = new Attendance();
-//            $result = $attendance->where(MONTH('attendance_date'), '=', $month)->get();
-//            $result = Attendance::select("SELECT * FROM attendances WHERE MONTH('attendance_date')= " . $month ."");
-//            $result = \DB::select("SELECT * FROM attendances WHERE MONTH('attendance_date')= '" . $month ."'");
-            $att = \DB::select("SELECT * FROM attendances JOIN users ON attendances.user_id=users.id WHERE designation = 'Employee' AND DATE_FORMAT(attendance_date,'%d')= '" . $day . "' ");
-//            var_dump($att);
-            return view('oms.pages.attendance')->with('result', $var)->with('att', $att);
-        }
-    }
-
-    public function viewEmpAttendance(Requests\ViewEmpAttendance $empAttendance)
-    {
-        $year = $empAttendance['year'];
-        $month = $empAttendance['month'];
-
-        $user = $this->user->find(Auth::id());
-//        $attendance = $user->join('attendances','users.id','=','attendances.user_id')->where('attendances.user_id',$user->id)->where(DATE_FORMAT('attendances.attendance_date)',$year))->get();
-        $attendance = \DB::select("SELECT * FROM users INNER JOIN attendances ON users.id = attendances.user_id WHERE users.id ='" . $user->id . "' AND DATE_FORMAT(attendance_date,'%Y')='" . $year . "' AND DATE_FORMAT(attendance_date,'%m')='" . $month . "'");
-        return view('oms.pages.attendance')->with('empattendance', $attendance);
-//        return redirect()->back()->with('empattendance',$attendance);
-
     }
 
     public function select_user()

@@ -54,11 +54,10 @@ $(document).ready(function(){
         checkbox.empty();
         $.ajax({
             method: "GET",
-            url: "/a",
+            url: "/api/users/present-by-date",
             dataType:'json',
             data: { date: abc.val()},
             success:function(result){
-                console.log(result);
                 result.forEach(function(data){
                      checkbox.append('<input type="checkbox" name="empName[]" value="+data.id+"><label>&nbsp;'+ data.first_name + ' ' + data.middle_name + ' ' + data.last_name + ' [User ID: ' + data.id +']</label><br>');
                 });
@@ -72,7 +71,6 @@ $(document).ready(function(){
         var i=0;
         value.each(function(){
             if($(this).val()==''){
-//                alert('Please Enter Date');
             }
             else{
                 date[i]=$(this).val();

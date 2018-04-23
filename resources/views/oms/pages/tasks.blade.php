@@ -150,7 +150,7 @@
                                         <a href="/{{$user->username}}">{{$user->first_name}}</a>
                                     @endforeach</td>
                                 <td>&nbsp;&nbsp;&nbsp;
-                                    <form action="tasks/{{$t->id}}">
+                                    <form method="POST" action="tasks/{{$t->id}}">
                                         {{csrf_field()}}
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button class="btn btn-danger">

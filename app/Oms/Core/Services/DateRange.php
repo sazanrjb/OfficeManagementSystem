@@ -44,10 +44,9 @@ class DateRange
                 return true;
                 break;
             } else {
-                $flag = false;
+                return false;
             }
         }
-        return $flag;
     }
 
     public function date_diff_task_leave($taskRange, $leaveRange)

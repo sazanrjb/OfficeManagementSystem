@@ -22,7 +22,7 @@ class FormRequest extends Request {
 	public function rules()
 	{
 		return [
-			'username' => 'min:2|max:10|required',
+			'username' => 'min:2|required',
             'password' => 'min:2|required'
 		];
 	}

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\AuthController;
 use App\Oms\User\Requests\UserRequest;
 use App\Oms\User\Manager as UserManager;
 use Illuminate\Support\Facades\Redirect;

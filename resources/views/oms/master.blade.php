@@ -26,10 +26,10 @@
 
         <div class="col-lg-6 col-sm-6">
             <!-- Featured Row starts -->
-            <a href="/attendance" class="nav-top">
+            <a href="/attendances" class="nav-top">
                 <div class="col-lg-3 col-md-3 col-sm-3 well col-xs-6 nav-child">
                     {!!HTML::image('img/result.png','',array('class'=>'img-responsive center-block','width'=>'50px'))!!}
-<!--                    {!!HTML::link('/attendance','Attendance')!!}-->
+<!--                    {!!HTML::link('/attendances','Attendance')!!}-->
                     <p class="text-center"> Attendance</p>
                 </div>
             </a>
@@ -56,7 +56,7 @@
                         </div>
                     </a>
                 @endif
-                    <a href="/complaint" class="nav-top">
+                    <a href="/complaints" class="nav-top">
                         <div class="col-lg-3 col-md-3 col-sm-3 well col-xs-6 nav-child">
                             {!!HTML::image('images/complaint.gif','',array('class'=>'img-responsive center-block','width'=>'50px'))!!}
                             <p class="text-center">Complaint</p>

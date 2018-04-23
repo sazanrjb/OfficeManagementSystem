@@ -42,13 +42,9 @@ namespace App\Repository;
             for($i=0;$i<count($range);$i++){
                 if($range[$i]==$task_date){
                     return true;
-                    break;
-                }
-                else{
-                    $flag=false;
                 }
             }
-            return $flag;
+            return false;
         }
 
         public function date_diff_task_leave($taskRange,$leaveRange){
