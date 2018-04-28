@@ -16,9 +16,14 @@
                 <a href="#" id="changePassword">Change Password Instead?</a><br>
             </div>
             <div class="col-md-8 col-md-offset-2 well" id="changeDetailsArea">
-                {!!Form::open(array('url'=>'/editprocess','method'=>'post','files'=>true))!!}
-                    {!!HTML::image($profile[0]->profile_picture,'',array('class'=>'img-responsive center-block'))!!}
-                    {!!Form::file('image',array('class'=>'center-block'))!!}<br>
+                {!!Form::open(array('url'=>'/profile/update','method'=>'post','files'=>true))!!}
+                    @if($user->profile)
+                        {!!HTML::image(optional($user->profile)->profile_picture,'',array('class'=>'img-responsive center-block'))!!}
+                    @else
+                        <img src="/img/user.bmp">
+                    @endif
+                    <br>
+                    {!!Form::file('profile_picture',array('class'=>'center-block'))!!}<br>
                     <label>First Name: </label>
                     {!!Form::input('text','firstName',$user->first_name,array('class'=>'form-control'))!!}
                     <br>
@@ -29,10 +34,10 @@
                     {!!Form::input('text','lastName',$user->last_name,array('class'=>'form-control'))!!}
                     <br>
                     <label>Address: </label>
-                    {!!Form::input('text','address',$profile[0]->address,array('class'=>'form-control'))!!}
+                    {!!Form::input('text','address',optional($user->profile)->address,array('class'=>'form-control'))!!}
                     <br>
                     <label>Contact: </label>
-                    {!!Form::input('text','contact',$profile[0]->contact,array('class'=>'form-control'))!!}
+                    {!!Form::input('text','contact',optional($user->profile)->contact,array('class'=>'form-control'))!!}
                     <br>
                     <label>Email: </label>
                     {!!Form::input('text','email',$user->email,array('class'=>'form-control'))!!}

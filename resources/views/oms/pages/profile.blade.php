@@ -10,7 +10,7 @@
 
                 <h2 class="text-center text-muted">Profile</h2>
                 @if($user->username == Auth::user()->username)
-                    <a href="/editprofile/" class="btn btn-primary" style="float: right;">Edit Profile</a>
+                    <a href="/profile/edit" class="btn btn-primary" style="float: right;">Edit Profile</a>
                 @endif
                 <div class="row center-block">
                     <div class="col-md-8 col-md-offset-2 well">

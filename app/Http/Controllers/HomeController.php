@@ -174,44 +174,8 @@ class HomeController extends Controller
     public function editprofile()
     {
         $user = $this->user->find(Auth::id());
-//        $query = \DB::select("SELECT * FROM users INNER JOIN user_profiles ON users.id = user_profiles.user_id");
         $query = $this->userProfile->join('users', 'users.id', '=', 'user_profiles.user_id')->where('user_profiles.user_id', $user->id)->get();
         return view('oms.pages.editprofile')->with('user', $user)->with('profile', $query);
-    }
-
-    public function editprocess(Requests\EditProfileRequest $editProfileRequest)
-    {
-
-        $user = $this->user->find(Auth::id());
-        $user->first_name = $editProfileRequest['firstName'];
-        $user->middle_name = $editProfileRequest['middleName'];
-        $user->last_name = $editProfileRequest['lastName'];
-        $user->email = $editProfileRequest['email'];
-
-        if ($user->save()) {
-//                $profile = $this->userProfile->join('users', 'users.id', '=', 'user_profiles.user_id')->where('user_profiles.user_id',$user->id)->get();
-            $profile = $user->profile;
-            $profile->gender = $editProfileRequest['gender'];
-            $profile->address = $editProfileRequest['address'];
-            $profile->contact = $editProfileRequest['contact'];
-            $file = Input::file('image');
-            if (Input::file('image')->isValid()) {
-                $destination = 'img';
-                $ext = $file->getClientOriginalExtension();
-                $filename = rand(1111, 99999) . '.' . $ext;
-                $profile->profile_picture = $destination . '/' . $filename;
-                if ($profile->save()) {
-                    Input::file('image')->move($destination, $filename);
-
-                    $this->savedUser = \DB::select("SELECT * FROM users INNER JOIN user_profiles ON users.id = user_profiles.user_id WHERE user_profiles.id=" . $profile->id);
-
-                    return redirect()->back();
-                }
-            }
-
-        } else {
-            echo 'Cannot update profile';
-        }
     }
 
     public function changePassword(Requests\ChangePasswordRequest $changePasswordRequest)

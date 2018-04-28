@@ -8,8 +8,16 @@ class UserProfile extends Model
 {
     protected $table = 'user_profiles';
 
-    public function user(){
-        return $this->belongsTo('App\User','user_id');
+    protected $fillable = [
+        'address',
+        'contact',
+        'profile_picture',
+        'gender'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
     }
 
 }
