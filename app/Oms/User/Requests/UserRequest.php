@@ -27,9 +27,9 @@ class UserRequest extends FormRequest
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'joined_date' => 'required|date',
-            'designation' => 'required|in:'.ucfirst(User::ADMIN).','.ucfirst(User::EMPLOYEE),
+            'designation' => 'required|in:'.implode(',', User::DESIGNATIONS),
         ];
     }
 }

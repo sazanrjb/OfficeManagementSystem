@@ -22,8 +22,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $table = 'users';
     public $timestamps = false;
 
-    const EMPLOYEE = 'employee';
-    const ADMIN = 'admin';
+    const EMPLOYEE = 'Employee';
+    const ADMIN = 'Administrator';
+    const DESIGNATIONS = [
+      self::EMPLOYEE,
+      self::ADMIN
+    ];
 
     /**
      * The attributes that are mass assignable.

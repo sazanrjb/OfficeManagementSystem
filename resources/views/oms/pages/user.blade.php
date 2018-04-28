@@ -42,13 +42,13 @@
                 @endforeach
             </table>
             <!--Table ends-->
+            @foreach($errors->all() as $error)
+                <p class="text-center text-danger bg-danger">{{$error}}</p>
+            @endforeach
             <button id="adduser" class="btn btn-success btn-block">Add User</button>
             <div class="col-md-8 col-md-offset-2 well" id="userform" >
 
                 <div class="form-group" >
-                    @foreach($errors->all() as $error)
-                        <p class="text-center text-danger bg-danger">{{$error}}</p>
-                    @endforeach
                     {!!Form::open(array('url'=>'/users','method'=>'post'))!!}
                     <h2 class="text-center text-muted">Add Users</h2>
                     <p class="text-info">Note: Username and Password will be auto generated</p>
