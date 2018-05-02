@@ -12,6 +12,7 @@ Route::get('/dashboard', 'DashboardController');
 Route::resource('tasks', 'TaskController');
 
 Route::get('api/users/present-by-date','User\GetPresentUsersByDate');
+Route::post('profile/change-password','User\ChangePassword');
 Route::post('profile/update','User\ChangeProfile@update');
 Route::get('profile/edit','User\ChangeProfile@index');
 Route::resource('users','User\UserController');

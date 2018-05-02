@@ -56,7 +56,7 @@
             </div>
 
             <div class="col-md-8 col-md-offset-2 well" id="changePasswordArea">
-                {!!Form::open(array('url'=>'/changepassword','method'=>'post'))!!}
+                {!!Form::open(array('url'=>'/profile/change-password','method'=>'post'))!!}
                 <label>Old password: </label>
                 {!!Form::input('password','oldPassword','',array('class'=>'form-control','placeholder'=>'Old Password'))!!}
                 <br>

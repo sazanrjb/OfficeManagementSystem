@@ -3,16 +3,10 @@
 use App\Complaint;
 use App\Http\Requests;
 use App\Notice;
-use App\Oms\Task\Requests\TaskRequest;
-use App\Oms\User\Exceptions\UserNotFoundException;
 use App\Task;
 use App\User;
 use App\Leave;
 use App\UserProfile;
-use DatePeriod;
-use DateTime;
-use DateInterval;
-use Illuminate\Support\Facades\DB;
 use Request;
 use Response;
 use Auth;
@@ -160,55 +154,6 @@ class HomeController extends Controller
             return view('oms.pages.leave');
         }
 
-    }
-
-    public function profile($username)
-    {
-        $result = $this->user->with('profile')->where('username', $username)->first();
-        if (!$result) {
-            throw new UserNotFoundException();
-        }
-        return view('oms.pages.profile')->with('user', $result);
-    }
-
-    public function editprofile()
-    {
-        $user = $this->user->find(Auth::id());
-        $query = $this->userProfile->join('users', 'users.id', '=', 'user_profiles.user_id')->where('user_profiles.user_id', $user->id)->get();
-        return view('oms.pages.editprofile')->with('user', $user)->with('profile', $query);
-    }
-
-    public function changePassword(Requests\ChangePasswordRequest $changePasswordRequest)
-    {
-        $oldPassword = $changePasswordRequest['oldPassword'];
-        $newPassword = $changePasswordRequest['newPassword'];
-        $confirmPassword = $changePasswordRequest['confirmPassword'];
-
-        if ($newPassword != $confirmPassword) {
-            \Session::flash('notice', 'Passwords do not match');
-            return redirect()->back()->withInput();
-        } else {
-            $user = $this->user->find(Auth::id());
-
-            $checkPassword = Auth::attempt(array(
-                'password' => $oldPassword
-            ));
-
-            if ($checkPassword) {
-                $user->password = Hash::make($newPassword);
-                if ($user->save()) {
-                    \Session::flash('notice', 'Successfully changed password');
-                    return redirect()->back()->withInput();
-                } else {
-                    \Session::flash('notice', 'Cannot change password');
-                    return redirect()->back()->withInput();
-                }
-            } else {
-
-                \Session::flash('notice', 'Incorrect Password');
-                return redirect()->back()->withInput();
-            }
-        }
     }
 
     public function ajax_users()
