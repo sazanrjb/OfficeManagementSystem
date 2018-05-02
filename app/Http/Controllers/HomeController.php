@@ -62,13 +62,6 @@ class HomeController extends Controller
         $this->complaint = new Complaint();
     }
 
-    public function users()
-    {
-        $result = $this->user->all();
-        $profile = $this->userProfile->all();
-        return view('oms.pages.user')->with('result', $result)->with('profile', $profile);
-    }
-
     public function report()
     {
         return view('oms.pages.report');
@@ -80,7 +73,6 @@ class HomeController extends Controller
         if ($this->user->find($empID)) {
             $user = $this->user->find($empID);
             if ($reportRequest['listCategory'] == 'Task') {
-//                $task = $user->tasks()->first()->get();
                 if ($user->tasks->count() == 0) {
 
                     \Session::flash('notice', 'No tasks are assigned to this user');
@@ -93,7 +85,6 @@ class HomeController extends Controller
                 $year = $reportRequest['year'];
                 $month = $reportRequest['month'];
                 $attendance = \DB::select("SELECT * FROM users INNER JOIN attendances ON users.id = attendances.user_id WHERE users.id ='" . $user->id . "' AND DATE_FORMAT(attendance_date,'%Y')='" . $year . "' AND DATE_FORMAT(attendance_date,'%m')='" . $month . "'");
-//                var_dump($attendance);
                 return redirect()->back()->with('att', $attendance);
             } else {
                 if ($user->leaves->count() == 0) {
@@ -237,18 +228,14 @@ class HomeController extends Controller
         $users = $this->user->all();
         $ranges = array();
         $user_profile = array();
-//            $leave_date=$users[0]->leaves()->get();
         foreach ($users as $user) {
             $leave_date = $user->leaves()->get();
             foreach ($leave_date as $le_date) {
                 array_push($ranges, $this->dateRange->date_range($le_date->start_date, $le_date->end_date));
             }
-//                $flag=false;
             foreach ($ranges as $range) {
                 $flag = $this->dateRange->date_diff_task_leave($TaskRange, $range);
             }
-            var_dump($flag);
-//                $flag=false;
             if ($flag != true) {
                 array_push($user_profile, array($user->id, $user->first_name, $user->middle_name, $user->last_name));
             }
@@ -256,7 +243,6 @@ class HomeController extends Controller
             unset($flag);
             $range = array();
         }
-//            var_dump($user_profile);
         return Response::json($user_profile);
 
     }
