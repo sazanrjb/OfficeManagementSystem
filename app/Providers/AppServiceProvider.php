@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$noticeRepository = resolve(NoticeRepository::class);
-        View::share('notice',$noticeRepository->get(5));
+        View::share('globalNotices',$noticeRepository->get(5));
 	}
 
 	/**

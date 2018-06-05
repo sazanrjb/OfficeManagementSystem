@@ -99,8 +99,8 @@
                     <br>
                     @if(Auth::user()->designation == 'Administrator')
                     <li><a href="/report"><span class="glyphicon glyphicon-eye-open"></span> View reports</a></li>
-                    <li><a href="/broadcast"><span class="glyphicon glyphicon-book"></span> Broadcast Notice</a></li>
-                    <li><a href="/noticehistory"><span class="glyphicon glyphicon-envelope"></span> Notice history</a></li>
+                    <li><a href="/notices/create"><span class="glyphicon glyphicon-book"></span> Broadcast Notice</a></li>
+                    <li><a href="/notices"><span class="glyphicon glyphicon-envelope"></span> Notice history</a></li>
                     @endif
                     <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                 </ul>
@@ -114,7 +114,7 @@
                         <p class="text-center text-muted"> Recent Notice from Admins </p>
                         <div style="height: 22em; overflow: auto;">
                             <div class="list-group">
-                                @foreach($notice as $note)
+                                @foreach($globalNotices  as $note)
                                 <a href="/notice/{{$note->id}}" class="list-group-item">
 <!--                                    <h4 class="list-group-item-heading">{{$note->users->first()->username}}</h4>-->
                                     <h4 class="list-group-item-heading">{{$note->users->first_name}} {{$note->users->middle_name}} {{$note->users->last_name}}</h4>

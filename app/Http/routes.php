@@ -26,10 +26,12 @@ Route::resource('attendances','Attendance\AttendanceController');
 Route::get('report','HomeController@report');
 Route::post('viewreport','HomeController@viewreport');
 
-Route::get('broadcast','HomeController@broadcast');
-Route::get('notice/{id}','HomeController@notice');
-Route::get('noticehistory','HomeController@noticehistory');
-Route::get('deletenotice/{id}','HomeController@deletenotice');
+//Route::get('broadcast','HomeController@broadcast');
+//Route::get('notice/{id}','HomeController@notice');
+//Route::get('noticehistory','HomeController@noticehistory');
+//Route::get('deletenotice/{id}','HomeController@deletenotice');
+
+Route::resource('notices', 'Notice\NoticeController');
 
 Route::get('leave','HomeController@leave');
 Route::post('makeleave','HomeController@makeleave');
