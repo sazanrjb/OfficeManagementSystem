@@ -115,7 +115,7 @@
                         <div style="height: 22em; overflow: auto;">
                             <div class="list-group">
                                 @foreach($globalNotices  as $note)
-                                <a href="/notice/{{$note->id}}" class="list-group-item">
+                                <a href="/notices/{{$note->id}}" class="list-group-item">
 <!--                                    <h4 class="list-group-item-heading">{{$note->users->first()->username}}</h4>-->
                                     <h4 class="list-group-item-heading">{{$note->users->first_name}} {{$note->users->middle_name}} {{$note->users->last_name}}</h4>
                                     <p class="list-group-item-text">{{$note->created_at}}</p>
